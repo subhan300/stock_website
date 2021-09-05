@@ -5,7 +5,11 @@ function StockExchnage() {
    let[ticket,setTicket]=useState("")
    let [api_status,currentApi_status]=useState("")
    let [data,setData]=useState("")
+   
+   let[sign,setSign]=useState()
 
+
+  
     const submit=async(e)=>{
         e.preventDefault();
         console.log(ticket,"ticket")
@@ -14,6 +18,16 @@ function StockExchnage() {
         currentApi_status(api.status)
         let data=await api.json()
         setData(data)
+        let a=String(data.extendedChangePercent )
+        const letters=[...a ]
+        if("-"==letters[0]){
+            setSign(true)
+        }
+        else{
+            setSign(false)
+      
+    }
+    
         console.log(data,"data")
      
 
@@ -30,7 +44,7 @@ function StockExchnage() {
              <br /> <br />
               {(() => {
                switch (api_status) {
-                case  200:   return   <Card data={data} />;
+                case  200:   return   <Card data={data} sign={sign} />;
                 case  404:   return  "Invalid ticker symbol."
                 default:     return "Search stock by ticker symbol.";
               }
